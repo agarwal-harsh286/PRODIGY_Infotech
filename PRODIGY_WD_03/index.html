@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic-Tac-Toe</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Pyodide CDN -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js"></script>
+  <style>
+    /* Custom CSS for animations, responsiveness, and alternate cell colors */
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to bottom right,lightgreen, #3b82f6,green);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      padding: 1rem;
+    }
+    .cell {
+      width: 100%;
+      aspect-ratio: 1/1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: clamp(2rem, 10vw, 4rem);
+      cursor: pointer;
+      background: white;
+      border: 2px solid #1e40af;
+      border-radius: 0.5rem;
+      transition: transform 0.2s, background 0.2s;
+    }
+    /* Alternate cell background color */
+    #game-board :nth-child(even) {
+      background: #e5e7eb; /* Light gray for even-indexed cells */
+    }
+    .cell:hover {
+      background: #eff6ff;
+      transform: scale(1.05);
+    }
+    .cell.x::before {
+      content: 'X';
+      color: #dc2626;
+      animation: fadeIn 0.3s;
+    }
+    .cell.o::before {
+      content: 'O';
+      color: #16a34a;
+      animation: fadeIn 0.3s;
+    }
+    .winning-cell {
+      background: #fefcbf !important; /* Override alternate color for winning cells */
+      animation: pulse 0.5s infinite alternate;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.1); }
+    }
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      width: clamp(250px, 80vw, 400px);
+      max-width: 100%;
+      background: linear-gradient(to bottom right,#1d4350,#a43931);
+      padding: 0.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+    }
+    #status {
+      font-size: clamp(1.2rem, 5vw, 1.8rem);
+      margin-bottom: 1rem;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    #reset-button {
+      font-size: clamp(1rem, 4vw, 1.2rem);
+      padding: 0.5rem 1rem;
+      transition: transform 0.2s;
+    }
+    #reset-button:hover {
+      transform: scale(1.05);
+    }
+    @media (max-width: 640px) {
+      .cell {
+        font-size: clamp(1.5rem, 8vw, 3rem);
+      }
+      #game-board {
+        gap: 0.3rem;
+        padding: 0.3rem;
+      }
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-center">
+  <h1 class="text-3xl font-bold text-white mb-4">Tic-Tac-Toe</h1>
+  <div id="status" class="text-center font-semibold">Player X's turn</div>
+  <div id="game-board" class="bg-blue-800">
+    <!-- Cells will be populated by JavaScript -->
+  </div>
+  <button id="reset-button" class="mt-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700">
+    Reset Game
+  </button>
+
+  <script>
+    // Load Pyodide and initialize Python code
+    async function main() {
+      let pyodide = await loadPyodide();
+      await pyodide.loadPackage("micropip");
+      let pythonCode = `
+board = [''] * 9
+current_player = 'X'
+
+def make_move(index):
+    global current_player
+    if board[index] == '':
+        board[index] = current_player
+        winner = check_winner()
+        if winner:
+            return f"Player {winner} wins!", True
+        if '' not in board:
+            return "It's a draw!", True
+        current_player = 'O' if current_player == 'X' else 'X'
+        return f"Player {current_player}'s turn", False
+    return "Invalid move!", False
+
+def check_winner():
+    win_conditions = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],  # Rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],  # Columns
+        [0, 4, 8], [2, 4, 6]              # Diagonals
+    ]
+    for condition in win_conditions:
+        a, b, c = condition
+        if board[a] == board[b] == board[c] != '':
+            return board[a]
+    return None
+
+def reset_board():
+    global board, current_player
+    board = [''] * 9
+    current_player = 'X'
+    return "Player X's turn"
+      `;
+      await pyodide.runPythonAsync(pythonCode);
+
+      // Initialize game board
+      const board = document.getElementById('game-board');
+      const status = document.getElementById('status');
+      const resetButton = document.getElementById('reset-button');
+
+      function createBoard() {
+        board.innerHTML = '';
+        for (let i = 0; i < 9; i++) {
+          const cell = document.createElement('div');
+          cell.classList.add('cell');
+          cell.dataset.index = i;
+          cell.addEventListener('click', () => handleMove(i));
+          board.appendChild(cell);
+        }
+      }
+
+      async function handleMove(index) {
+        let result = await pyodide.runPythonAsync(`make_move(${index})`);
+        let [message, gameOver] = result;
+        status.textContent = message;
+        updateBoard();
+        if (gameOver) {
+          highlightWinner();
+          disableBoard();
+        }
+      }
+
+      function updateBoard() {
+        let pyBoard = pyodide.globals.get('board').toJs();
+        document.querySelectorAll('.cell').forEach((cell, i) => {
+          cell.className = 'cell';
+          if (pyBoard[i]) {
+            cell.classList.add(pyBoard[i].toLowerCase());
+          }
+        });
+      }
+
+      function highlightWinner() {
+        let winner = pyodide.globals.get('check_winner')();
+        if (winner) {
+          let win_conditions = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
+          ];
+          for (let condition of win_conditions) {
+            let [a, b, c] = condition;
+            let pyBoard = pyodide.globals.get('board').toJs();
+            if (pyBoard[a] === winner && pyBoard[b] === winner && pyBoard[c] === winner) {
+              [a, b, c].forEach(i => {
+                document.querySelector(`.cell[data-index="${i}"]`).classList.add('winning-cell');
+              });
+            }
+          }
+        }
+      }
+
+      function disableBoard() {
+        document.querySelectorAll('.cell').forEach(cell => {
+          cell.style.pointerEvents = 'none';
+        });
+      }
+
+      resetButton.addEventListener('click', async () => {
+        await pyodide.runPythonAsync('reset_board()');
+        status.textContent = "Player X's turn";
+        createBoard();
+      });
+
+      // Initialize the game
+      createBoard();
+    }
+    main();
+  </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harsh Agarwal - Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">Harsh Agarwal</div>
+        <div class="menu-toggle">☰</div>
+        <ul>
+            <li><a href="#home" class="active">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="home-hero">
+        <h1>Hello, I'm Harsh Agarwal</h1>
+        <h2>Front-end Developer & Designer</h2>
+        <button class="btn">View My Work</button>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="container about-section">
+        <div class="about-img">
+            <img src="https://via.placeholder.com/350x350" alt="Harsh Agarwal">
+        </div>
+        <div class="about-content">
+            <h2>About Me</h2>
+            <p>I'm a passionate Full Stack Developer with expertise in creating dynamic and responsive web applications. I love turning ideas into reality through clean code and intuitive design.</p>
+            <p>With a strong foundation in both front-end and back-end technologies, I strive to deliver seamless user experiences and robust solutions.</p>
+            <div class="skills">
+                <div class="skill">
+                    <div class="skill-name">HTML & CSS</div>
+                    <div class="skill-bar"><div class="skill-level" style="width: 90%"></div></div>
+                </div>
+                <div class="skill">
+                    <div class="skill-name">JavaScript</div>
+                    <div class="skill-bar"><div class="skill-level" style="width: 85%"></div></div>
+                </div>
+                <div class="skill">
+                    <div class="skill-name">Matlab</div>
+                    <div class="skill-bar"><div class="skill-level" style="width: 80%"></div></div>
+                </div>
+                <div class="skill">
+                    <div class="skill-name">Python</div>
+                    <div class="skill-bar"><div class="skill-level" style="width: 75%"></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="container">
+        <h2 style="text-align: center; margin-bottom: 2rem;">My Portfolio</h2>
+        <div class="portfolio-grid">
+            <div class="portfolio-item">
+                <img src="https://via.placeholder.com/280x180" alt="Project 1">
+                <div class="portfolio-info">
+                    <h3>Project One</h3>
+                    <p>A responsive e-commerce platform built with React and Node.js.</p>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://via.placeholder.com/280x180" alt="Project 2">
+                <div class="portfolio-info">
+                    <h3>Project Two</h3>
+                    <p>A task management app with real-time collaboration features.</p>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://via.placeholder.com/280x180" alt="Project 3">
+                <div class="portfolio-info">
+                    <h3>Project Three</h3>
+                    <p>A portfolio website with modern animations and clean design.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="container contact-section">
+        <h2>Contact Me</h2>
+        <form class="contact-form">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>

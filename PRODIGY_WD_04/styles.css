@@ -1,0 +1,432 @@
+/* Main stylesheet for Harsh Agarwal Portfolio */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #ffffff, lightgreen, lightblue);
+  background-size: 200% 200%;
+  animation: softShift 10s ease infinite;
+  color: #2c2c2c;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  overflow-x: hidden;
+  animation: fadeInBody 1s ease-in-out;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* Subtle fade-in on load */
+@keyframes fadeInBody {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smooth animated background gradient */
+@keyframes softShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Optional: gentle text enhancement */
+body * {
+  text-shadow: 0.3px 0.3px 1px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
+}
+
+
+a {
+  text-decoration: none;
+  color: #0077ff;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #0056b3;
+}
+
+/* Navigation styles */
+nav {
+  background-color: #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+nav .logo {
+  color: #fff;
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: 2px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+}
+
+nav ul li {
+  margin-left: 1.5rem;
+}
+
+nav ul li a {
+  color: #fff;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.5rem;
+  display: block;
+}
+
+nav ul li a.active,
+nav ul li a:hover {
+  background-color: #0077ff;
+  border-radius: 4px;
+  color: #fff;
+}
+
+/* Container */
+.container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* Home page styles */
+.home-hero {
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.home-hero h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+  animation: fadeInDown 1s ease forwards;
+}
+
+.home-hero h2 {
+  font-weight: 400;
+  color: #555;
+  margin-bottom: 1.5rem;
+  animation: fadeInUp 1s ease 0.6s forwards;
+}
+
+.home-hero .btn {
+  background-color: #0077ff;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,119,255,0.4);
+  animation: fadeIn 1s ease 1.2s forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.home-hero .btn:hover {
+  background-color: #0056b3;
+  box-shadow: 0 6px 12px rgba(0,86,179,0.6);
+}
+
+/* About page */
+.about-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+}
+
+.about-img {
+  flex: 1 1 300px;
+  max-width: 350px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  animation: slideInLeft 1s ease forwards;
+}
+
+.about-img img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.about-content {
+  flex: 2 1 400px;
+  animation: slideInRight 1s ease forwards;
+}
+
+.about-content h2 {
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+.about-content p {
+  margin-bottom: 1rem;
+  color: #444;
+}
+
+.skills {
+  margin-top: 1.5rem;
+}
+
+.skill {
+  margin-bottom: 0.8rem;
+}
+
+.skill-name {
+  font-weight: 600;
+  color: #0077ff;
+  margin-bottom: 0.3rem;
+}
+
+.skill-bar {
+  background-color: #ddd;
+  border-radius: 20px;
+  overflow: hidden;
+  height: 15px;
+}
+
+.skill-level {
+  height: 15px;
+  background-color: #0077ff;
+  width: 0;
+  border-radius: 20px;
+  transition: width 1.3s ease;
+}
+
+/* Portfolio page */
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  gap: 1.5rem;
+}
+
+.portfolio-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  background-color: white;
+}
+
+.portfolio-item img {
+  width: 100%;
+  display: block;
+  height: 180px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.portfolio-item:hover img {
+  transform: scale(1.1);
+}
+
+.portfolio-info {
+  padding: 1rem;
+  text-align: center;
+}
+
+.portfolio-info h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+  color: #222;
+  font-weight: 700;
+}
+
+.portfolio-info p {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Contact page */
+.contact-section {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.contact-section h2 {
+  color: #222;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-form label {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #0077ff;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+  transition: border-color 0.3s ease;
+  font-size: 1rem;
+  resize: vertical;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #0077ff;
+  outline: none;
+}
+
+.contact-form button {
+  background-color: #0077ff;
+  color: white;
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,119,255,0.4);
+  transition: background-color 0.3s ease;
+}
+
+.contact-form button:hover {
+  background-color: #0056b3;
+  box-shadow: 0 6px 12px rgba(0,86,179,0.6);
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    background-color: #222;
+    width: 100%;
+    position: absolute;
+    top: 60px;
+    left: -100%;
+    transition: left 0.3s ease;
+  }
+
+  nav ul.show {
+    left: 0;
+  }
+
+  nav ul li {
+    margin: 1rem 0;
+    margin-left: 0;
+  }
+
+  nav .menu-toggle {
+    display: block;
+    cursor: pointer;
+    color: white;
+    font-size: 1.5rem;
+  }
+
+  .about-section {
+    flex-direction: column;
+  }
+
+  .about-img, .about-content {
+    max-width: 100%;
+    flex: 1 1 100%;
+  }
+
+  .home-hero h1 {
+    font-size: 2.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .home-hero h2 {
+    font-size: 1rem;
+  }
+}
+
